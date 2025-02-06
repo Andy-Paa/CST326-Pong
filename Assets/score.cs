@@ -6,7 +6,7 @@ public class score : MonoBehaviour
     public float speed = 1f;
     public detector detectorL;
     public detector detectorR;
-    public int scoreL = 0;
+    public int scoreL = 0;//score debug
     public int scoreR = 0;
     Vector3 ballPos;
 
