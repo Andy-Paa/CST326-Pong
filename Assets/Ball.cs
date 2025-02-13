@@ -4,7 +4,6 @@ public class Ball : MonoBehaviour
 {
     public float initialSpeed = 5f;
     public float speedMultiplier = 1.1f; // 碰到pad时的加速倍率
-
     public AudioClip bounceSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,11 +30,12 @@ public class Ball : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log($"made contact with {collision.gameObject.name}");
-
+        Rigidbody rb = GetComponent<Rigidbody>();
+        float speed = rb.linearVelocity.magnitude;
         AudioSource audioSource = GetComponent<AudioSource>();
         audioSource.clip = bounceSound;
+        audioSource.pitch = Mathf.Clamp(speed / initialSpeed, 0.5f, 2f);
         audioSource.Play();
-        // Rigidbody rb = GetComponent<Rigidbody>();
 
         // if (collision.gameObject.CompareTag("pad"))
         // {
@@ -44,6 +44,15 @@ public class Ball : MonoBehaviour
         //     reflectDirection = new Vector3(reflectDirection.x, 0f, reflectDirection.z); // 保持水平反弹
         //     rb.linearVelocity = reflectDirection * rb.linearVelocity.magnitude * speedMultiplier; // 加速
         // }
+        // else */
+        if (collision.gameObject.CompareTag("acc"))
+        {
+            rb.linearVelocity *= 1.2f;
+        }
+        else if (collision.gameObject.CompareTag("dec"))
+        {
+            rb.linearVelocity *= 0.8f;
+        }
         // else
         // {
         //     Vector3 normal = collision.contacts[0].normal;
